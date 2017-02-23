@@ -4,17 +4,6 @@ import java.sql.Date;
 
 public class Empleado {
 	
-	//employee_id
-	//first_name
-	//last_name
-	//email
-	//phone_number
-	//salary
-	//job_id
-	//commission_pct
-	//department_id
-	//hire_date
-	//manager_id
 	
 	private int employee_id;
 	private String first_name;
