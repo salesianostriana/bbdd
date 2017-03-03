@@ -49,7 +49,7 @@ public class Main {
 
 			case 7:
 				listaAlumnosMas15PorCiento();
-
+				break;
 			default:
 				System.out.println("ERROR, opción incorrecta, vuelva a introducir una nueva");
 
