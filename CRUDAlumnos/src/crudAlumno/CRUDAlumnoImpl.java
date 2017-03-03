@@ -16,8 +16,36 @@ public class CRUDAlumnoImpl implements CRUDAlumno {
 				+ " CORREO_ELECTRONICO, HORAS_FALTAS "
 				+ " FROM ALUM";
 		
+		List<Alumno> result = null;
 		
+		PreparedStatement ps = DBConnection.getPreparedStatement(sql);
 		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			if (result == null)
+				result = new ArrayList<Alumno>();
+			
+			result.add(new Alumno(rs.getInt("ID_ALUMNO"),
+					rs.getString("NOMBRE"),
+					rs.getString("APELLIDOS"),
+					rs.getString("FEC_NAC"),
+					rs.getString("CORREO_ELECTRONICO"),
+					rs.getInt("HORAS_FALTAS")));
+		}
+		
+		rs.close();
+		ps.close();
+		
+		return result;
+	}
+	
+	public List<Alumno> obtenerAlumnos15Porciento() throws ClassNotFoundException, SQLException {
+		String sql = "SELECT ID_ALUMNO, NOMBRE, APELLIDOS,"
+				+ " TO_CHAR(FECHA_NACIMIENTO,'DD/MM/YYYY') AS FEC_NAC, "
+				+ " CORREO_ELECTRONICO, HORAS_FALTAS "
+				+ " FROM ALUM "
+				+ " WHERE HORAS_FALTAS >= 29";
 		
 		List<Alumno> result = null;
 		
@@ -45,7 +73,36 @@ public class CRUDAlumnoImpl implements CRUDAlumno {
 
 	@Override
 	public Alumno findOne(int codAlum) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		
+		//1º Definir la consulta SQL
+		String sql = "SELECT ID_ALUMNO, NOMBRE, APELLIDOS,"
+				+ " TO_CHAR(FECHA_NACIMIENTO,'DD/MM/YYYY') AS FEC_NAC, "
+				+ " CORREO_ELECTRONICO, HORAS_FALTAS "
+				+ " FROM ALUM "
+				+ " WHERE ID_ALUMNO = ?";
+		
+		//2º Obtenemos el PreparedStatement para esa consulta 
+		PreparedStatement ps = DBConnection.getPreparedStatement(sql);
+		
+		//3º Le asignamos valores
+		ps.setInt(1, codAlum);
+		
+		//4º Ejecutamos la consulta
+		ResultSet rs = ps.executeQuery();
+		
+		//5º Procesamos y devolvemos los datos
+		
+		//Si hay datos
+		if (rs.next()) {
+			//Hay resultado
+			return new Alumno(rs.getInt("ID_ALUMNO"),
+					rs.getString("NOMBRE"),
+					rs.getString("APELLIDOS"),
+					rs.getString("FEC_NAC"),
+					rs.getString("CORREO_ELECTRONICO"),
+					rs.getInt("HORAS_FALTAS"));
+		} 
+		
 		return null;
 	}
 
