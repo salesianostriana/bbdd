@@ -34,6 +34,10 @@ public class Main {
 			case 3:
 				editarAlumno();
 				break;
+				
+			case 4:
+				editarHorasFaltas();
+				break;
 
 			case 5:
 				listarAlumnos();
@@ -123,6 +127,27 @@ public class Main {
 		horasFaltas = Leer.datoInt();
 
 		crudAlum.edit(new Alumno(idUsuario, nombre, apellidos, fechaNacimiento, correoElectronico, horasFaltas));
+
+	}
+	
+	public static void editarHorasFaltas() throws ClassNotFoundException, SQLException {
+		int idUsuario, horasFaltas;
+		System.out.println("Actualizar las horas de faltas un alumno");
+		System.out.println("=================================");
+		System.out.println("Diga el id del alumno que quiera cambiar");
+		System.out.println("Introduzca el ID del alumno");
+		idUsuario = Leer.datoInt();
+		
+		Alumno a = crudAlum.findOne(idUsuario);
+		
+		if (a == null) {
+			System.out.println("El alumno a editar no existe");
+		} else {
+			System.out.println("Introduzca las horas de falta del alumno");
+			horasFaltas = Leer.datoInt();
+			a.setHoras_faltas(horasFaltas);
+			crudAlum.edit(a);
+		}
 
 	}
 
